@@ -35,6 +35,7 @@ namespace Bot
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+          services.AddSingleton<BotService>();
 
             services.AddMvc();
         }
@@ -63,6 +64,9 @@ namespace Bot
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+          var botService = app.ApplicationServices.GetService<BotService>();
+          botService.Init(Configuration["TelegramApiKey"]);
         }
     }
 }
